@@ -1,40 +1,55 @@
 module Pascal where
 
 import           Data.Char
+import           Data.Maybe ( isJust )
 
 data Operation = Add | Subtract | Divide | Multiply
 
+operationKList :: [(Char, Operation)]
+operationKList =
+    [ ('+', Add), ('-', Subtract), ('/', Divide), ('*', Multiply) ]
+
+isOperation :: Char -> Bool
+isOperation c = isJust (lookup c operationKList)
+
+charToOperation :: Char -> PascalM Operation
+charToOperation c =
+    maybe (Left (c : " is not a operation")) return (lookup c operationKList)
+
 data Sign = Plus | Minus
+
+signKList :: [(Char, Sign)]
+signKList = [ ('+', Plus), ('-', Minus) ]
+
+isSign :: Char -> Bool
+isSign c = isJust (lookup c signKList)
+
+charToSign :: Char -> PascalM Sign
+charToSign c = maybe (Left (c : " is not a sign")) return (lookup c signKList)
+
+data Exp = Number Sign Int | Op Operation Exp Exp
 
 type PascalM a = Either String a
 
 solve :: String -> PascalM Int
-solve exp = solve' exp >>= \(_, result) -> return result
+solve input = compute <$> parse input
 
-solve' :: String -> PascalM (String, Int)
-solve' exp = do
-    (exp', sign) <- parseSign exp
-    (exp'', number) <- parseNumber exp'
-    return (exp'', number)
+parse :: String -> PascalM Exp
+parse (x : y : xs)
+    | isSign x && isDigit y = charToSign x >>= flip parseNumber (y : xs)
+parse (y : xs)
+    | isDigit y = parseNumber Plus (y : xs)
 
-parseSign :: String -> PascalM (String, Sign)
-parseSign ('+' : xs) = return (xs, Plus)
-parseSign ('-' : xs) = return (xs, Minus)
-parseSign exp = return (exp, Plus)
+parseNumber :: Sign -> String -> PascalM Exp
+parseNumber sign = parseNumber' sign ""
 
-parseOperation :: String -> PascalM (String, Operation)
-parseOperation ('+' : xs) = return (xs, Add)
-parseOperation ('-' : xs) = return (xs, Subtract)
-parseOperation ('/' : xs) = return (xs, Divide)
-parseOperation ('*' : xs) = return (xs, Multiply)
-parseOperation _ = Left "unabel to parseOperation"
+parseNumber' :: Sign -> String -> String -> PascalM Exp
+parseNumber' sign "" "" = Left "parseNumber': unexpected end of input"
+parseNumber' sign s "" = return (Number sign (read s))
+parseNumber' sign s input@(x : xs)
+    | isDigit x = parseNumber' sign (s ++ [ x ]) xs
+    | otherwise = parse input
 
-parseNumber :: String -> PascalM (String, Int)
-parseNumber = parseNumber' ""
+compute :: Exp -> Int
+compute (Number sign n) = n
 
-parseNumber' :: String -> String -> PascalM (String, Int)
-parseNumber' "" "" = Left "parseNumber': end of input"
-parseNumber' s "" = return ("", read s)
-parseNumber' s exp@(x : xs)
-    | isDigit x = parseNumber' (s ++ [ x ]) xs
-    | otherwise = return (exp, read s)
