@@ -19,7 +19,7 @@ maintainer:         francesco.burelli@protonmail.com
 extra-source-files: CHANGELOG.md
 
 library
-    exposed-modules:  MyLib
+    exposed-modules:  Pascal
 
     -- Modules included in this library but not exported.
     -- other-modules:
@@ -49,7 +49,9 @@ test-suite monad-composition-example-test
     default-language: Haskell2010
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test
-    main-is:          MyLibTest.hs
+    main-is:          Spec.hs
+    other-modules:    PascalTest
     build-depends:    base >=4.12 && <5
+                    , HUnit ^>=1.6.2.0
                     , monad-composition-example
 
