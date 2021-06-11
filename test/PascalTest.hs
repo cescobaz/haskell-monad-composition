@@ -5,7 +5,7 @@ import qualified Pascal
 import           Test.HUnit.Base hiding ( test )
 
 test :: Test
-test = TestList [ justNumber ]
+test = TestList [ justNumber, simpleSum ]
 
 justNumber :: Test
 justNumber = TestLabel "justNumber" $ TestCase $ do
