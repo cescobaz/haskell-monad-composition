@@ -5,7 +5,7 @@ import qualified Pascal
 import           Test.HUnit.Base hiding ( test )
 
 test :: Test
-test = TestList [ justNumber, simpleSum, doubleSum, doubleSubstract ]
+test = TestList [ justNumber, simpleSum, doubleSum, malformedInput ]
 
 justNumber :: Test
 justNumber = TestLabel "justNumber" $ TestCase $ do
@@ -29,10 +29,12 @@ doubleSum = TestLabel "doubleSum" $ TestCase $ do
     Pascal.solve "1+0+1" @?= Right 2
     Pascal.solve "0+1+3" @?= Right 4
     Pascal.solve "3+5+10" @?= Right 18
+    Pascal.solve "3+5+10+220" @?= Right 238
 
-doubleSubstract :: Test
-doubleSubstract = TestLabel "doubleSubstract" $ TestCase $ do
-    Pascal.solve "1-1-1" @?= Right (-1)
-    Pascal.solve "1-0-1" @?= Right 0
-    Pascal.solve "0-1-3" @?= Right (-4)
-    Pascal.solve "3-5-10" @?= Right (-12)
+malformedInput :: Test
+malformedInput = TestLabel "malformedInput" $ TestCase $ do
+    Pascal.solve "" @?= Left "unexpected end of input"
+    Pascal.solve "x" @?= Left "unexpected x"
+    Pascal.solve "1+0+1+" @?= Left "unexpected end of input"
+    Pascal.solve "0+1+3+" @?= Left "unexpected end of input"
+    Pascal.solve "3+5+10a" @?= Left "unexpected a"
