@@ -39,6 +39,7 @@ parse (x : y : xs)
     | isSign x && isDigit y = charToSign x >>= flip parseNumber (y : xs)
 parse (y : xs)
     | isDigit y = parseNumber Plus (y : xs)
+parse "" = Left "unexpected end of input"
 
 parseNumber :: Sign -> String -> PascalM Exp
 parseNumber sign = parseNumber' sign ""
