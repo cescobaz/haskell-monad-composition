@@ -1,6 +1,6 @@
 module Pascal where
 
-import           Data.Char
+import           Data.Char ( isDigit )
 
 type PascalM a = Either String a
 
@@ -12,7 +12,7 @@ parseNumber "" "" = Left "unexpected end of input"
 parseNumber s "" = return (read s)
 parseNumber s (x : xs)
     | isDigit x = parseNumber (s ++ [ x ]) xs
-    | x == '+' = do
+    | x == '+' && not (null s) = do
         r <- parseNumber "" xs
         return (l + r)
     | otherwise = Left ("unexpected " ++ [ x ])

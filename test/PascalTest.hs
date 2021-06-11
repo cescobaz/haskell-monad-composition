@@ -35,6 +35,8 @@ malformedInput :: Test
 malformedInput = TestLabel "malformedInput" $ TestCase $ do
     Pascal.solve "" @?= Left "unexpected end of input"
     Pascal.solve "x" @?= Left "unexpected x"
+    Pascal.solve "+2" @?= Left "unexpected +"
+    Pascal.solve "+" @?= Left "unexpected +"
     Pascal.solve "1+0+1+" @?= Left "unexpected end of input"
     Pascal.solve "0+1+3+" @?= Left "unexpected end of input"
     Pascal.solve "3+5+10a" @?= Left "unexpected a"
