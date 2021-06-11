@@ -1,7 +1,6 @@
 module Pascal where
 
 import           Data.Char
-import           Data.Maybe ( isJust )
 
 type PascalM a = Either String a
 
@@ -11,7 +10,7 @@ solve = parseNumber ""
 parseNumber :: String -> String -> PascalM Int
 parseNumber "" "" = Left "unexpected end of input"
 parseNumber s "" = return (read s)
-parseNumber s input@(x : xs)
+parseNumber s (x : xs)
     | isDigit x = parseNumber (s ++ [ x ]) xs
     | x == '+' = do
         r <- parseNumber "" xs
