@@ -1,5 +1,31 @@
 # Monad Composition Example
 
+## Pure computation using Either monad
+
+```bash
+git checkout pure-computation-using-either-monad
+```
+
+Define the app type as an alias of Either.
+
+```haskell
+type PascalM a = Either String a
+```
+
+Then I suggest to use it as a monad:
+```haskell
+
+```
+
+### Not with pattern matching
+
+```bash
+git checkout pure-computation-using-either-monad
+```
+
+```haskell
+```
+
 ## One level of monad composition: ExceptT
 
 Monads are like a computation, a computation where only some behavior are allowed.  
@@ -10,7 +36,7 @@ Usually a monad has a runner. So we need to define 2 runners, one for the transf
 
 Given a Monad as `MyMonad a`, runner run the monad instance and return something like `a`.
 
-## Second level of monad composition: ExceptT StateT
+## Two level of monad composition: ExceptT StateT
 
 The type of app monad is the same, but the generic `m` is now wrapped by an other monad: the StateT monad transformer.
 
@@ -48,7 +74,7 @@ If you are using [`transformer`](https://hackage.haskell.org/package/transformer
 
 Note that your app monad interface doesn't changed, so you don't need to change tests.
 
-## Third level of monad composition: ExceptT StateT WriterT
+## Three level of monad composition: ExceptT StateT WriterT
 
 Ok, lets add another layer of monad. Lets try a WriterT.  
 Start from the type of the app monad: just replace m with the new transformer:
