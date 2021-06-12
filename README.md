@@ -79,6 +79,10 @@ runPascal = runIdentity . runPascalT
 
 ## Two level of monad composition: ExceptT StateT
 
+```bash
+git checkout two-level-monad-composition
+```
+
 The type of app monad is the same, but the generic `m` is now wrapped by an other monad: the StateT monad transformer.
 
 ```haskell
@@ -116,6 +120,10 @@ If you are using [`transformer`](https://hackage.haskell.org/package/transformer
 Note that your app monad interface doesn't changed, so you don't need to change tests.
 
 ## Three level of monad composition: ExceptT StateT WriterT
+
+```bash
+git checkout main
+```
 
 Ok, lets add another layer of monad. Lets try a WriterT.  
 Start from the type of the app monad: just replace m with the new transformer:
