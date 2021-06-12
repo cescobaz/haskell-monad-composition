@@ -12,9 +12,9 @@ parseNumber "" "" = Left "unexpected end of input"
 parseNumber s "" = return (read s)
 parseNumber s (x : xs)
     | isDigit x = parseNumber (s ++ [ x ]) xs
-    | x == '+' && not (null s) = do
-        r <- parseNumber "" xs
-        return (l + r)
+    | x == '+' && not (null s) = case (parseNumber "" xs) of
+        Right r -> Right (r + l)
+        Left err -> Left err
     | otherwise = Left ("unexpected " ++ [ x ])
   where
     l = read s
