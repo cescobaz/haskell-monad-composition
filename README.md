@@ -28,10 +28,18 @@ parseNumber s (x : xs)
 ### Not with pattern matching
 
 ```bash
-git checkout pure-computation-using-either-monad
+git checkout pure-computation-using-either-monad-pattern-matching
 ```
 
 ```haskell
+parseNumber s (x : xs)
+    | isDigit x = parseNumber (s ++ [ x ]) xs
+    | x == '+' && not (null s) = case (parseNumber "" xs) of
+        Right r -> Right (r + l)
+        Left err -> Left err
+    | otherwise = Left ("unexpected " ++ [ x ])
+  where
+    l = read s
 ```
 
 ## One level of monad composition: ExceptT
