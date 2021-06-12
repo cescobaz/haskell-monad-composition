@@ -55,10 +55,8 @@ parseNumber "" "" = throwE "unexpected end of input" -- I can use ExceptT monad 
 parseNumber s "" = return (read s)
 parseNumber s (x : xs)
     | isDigit x = parseNumber (s ++ [ x ]) xs
-    | x == '+' && not (null s) = do
-        r <- parseNumber "" xs
-        lift $ modify incrementComputations
-        return (l + r)
+    | x == '+' && not (null s) = lift (modify incrementComputations)
+        >> (+) l <$> parseNumber "" xs
     | otherwise = throwE ("unexpected " ++ [ x ])
   where
     l = read s
