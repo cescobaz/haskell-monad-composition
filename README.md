@@ -43,6 +43,7 @@ runPascal :: PascalM a -> Either String a
 runPascal m = runIdentity (runPascalT m (Memory [] 0))
 ```
 
-Now it is possible to use State monad functions like `get`, `put` or `modify` inside your app monad.  
+Now it is possible to use State monad functions like `get`, `put` or `modify` inside your app monad using `lift` as prefix.  
+If you are using [`transformer`](https://hackage.haskell.org/package/transformers-0.5.6.2) lib you need to use [`lift`](https://hackage.haskell.org/package/transformers-0.5.6.2/docs/Control-Monad-Trans-Class.html#v:lift) operator to add monad.  
 
 Note that your app monad interface doesn't changed, so you don't need to change tests.

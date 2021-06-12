@@ -10,6 +10,7 @@ test = TestList [ justNumber
                 , doubleSum
                 , malformedInput
                 , concatComputations
+                , checkMemory
                 ]
 
 justNumber :: Test
@@ -49,3 +50,13 @@ malformedInput = TestLabel "malformedInput" $ TestCase $ do
 concatComputations :: Test
 concatComputations = TestLabel "concatComputations" $ TestCase $ do
     Pascal.runPascal (Pascal.solve "1+1+1" >> Pascal.solve "1+0+1") @?= Right 2
+
+checkMemory :: Test
+checkMemory = TestLabel "checkMemory" $ TestCase $ do
+    Pascal.runPascal (Pascal.solve expression' >> Pascal.solve expression''
+                      >> Pascal.solve expression'' >> Pascal.getMemory)
+        @?= Right (Pascal.Memory [ (expression'', 2), (expression', 3) ] 4)
+  where
+    expression' = "1+1+1"
+
+    expression'' = "1+0+1"
