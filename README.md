@@ -1,7 +1,7 @@
 # Monad Composition Example
 
 This repo is a training project for playing with monads and composition of monads.  
-For this purpose I wrote a simple module called `Pascal` for solving really simple math expression. An example in the following:
+For this purpose I wrote a simple module called `Pascal` for solving really simple math expression. An example is the following:
 
 ```haskel
 Pascal.solve "40+2" @?= Right 42
