@@ -21,7 +21,7 @@ solve :: String -> PascalM Int
 solve = parseNumber ""
 
 parseNumber :: String -> String -> PascalM Int
-parseNumber "" "" = throwE "unexpected end of input"
+parseNumber "" "" = throwE "unexpected end of input" -- I can use ExceptT monad function
 parseNumber s "" = return (read s)
 parseNumber s (x : xs)
     | isDigit x = parseNumber (s ++ [ x ]) xs
