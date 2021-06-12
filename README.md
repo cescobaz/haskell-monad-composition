@@ -8,7 +8,7 @@ Pascal.solve "40+2" @?= Right 42
 ```
 
 Using git tag and branch you are able to switch to the particular implementation of the algorithm.  
-The journey starts with a "pure" implementation and ends with a "three level monad composition" implementation (ExceptT StateT WriterT).  
+The journey starts with a "pure" implementation and ends with a "three level monad composition" implementation (`ExceptT` `StateT` `WriterT`).  
 
 I hope this example project could help people to undestand monad, monad transformers and composition. Writing this code I undestood monad better and I learned a lot of new stuff.
 
