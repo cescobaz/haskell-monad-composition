@@ -17,9 +17,7 @@ Then I suggest to use it as a monad:
 ```haskell
 parseNumber s (x : xs)
     | isDigit x = parseNumber (s ++ [ x ]) xs
-    | x == '+' && not (null s) = do
-        r <- parseNumber "" xs
-        return (l + r)
+    | x == '+' && not (null s) = (+) l <$> parseNumber "" xs
     | otherwise = Left ("unexpected " ++ [ x ])
   where
     l = read s
@@ -46,11 +44,35 @@ parseNumber s (x : xs)
 
 Monads are like a computation, a computation where only some behavior are allowed.  
 
-To create you own monad (ready to be composed) just define a new type. One type for transformer and one for the monad.  
+To create you own monad (ready to be composed):  
 
-Usually a monad has a runner. So we need to define 2 runners, one for the transformer and one for the monad.  
+1. define your monad transformer type based on a transformer;
 
-Given a Monad as `MyMonad a`, runner run the monad instance and return something like `a`.
+```haskell
+type PascalT m a = ExceptT String m a
+```
+
+2. define your transformer runner;
+
+```haskell
+runPascalT :: (Monad m) => PascalT m a -> m (Either String a)
+runPascalT = runExceptT
+```
+
+Transformer runner will execute the monad (`ExceptT` in this case) and pop out the inner monad `m`, ready to be runned by another runner.
+
+3. define your monad type;
+
+```haskell
+type PascalM a = PascalT Identity a
+```
+
+4. define your monad runner.
+
+```haskell
+runPascal :: PascalM a -> Either String a
+runPascal = runIdentity . runPascalT
+```
 
 ## Two level of monad composition: ExceptT StateT
 
