@@ -67,6 +67,9 @@ Transformer runner will execute the monad (`ExceptT` in this case) and pop out t
 type PascalM a = PascalT Identity a
 ```
 
+Because of run*T will pop out the inner monad `m`, at some poit we need stop the composition and we can do it by using an `Identity` monad that does nothing than give as the value `a`.  
+If you need to use `IO` in your monad you can use `IO` insted of `Identity`.
+
 4. define your monad runner.
 
 ```haskell
