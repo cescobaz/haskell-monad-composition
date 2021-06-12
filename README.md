@@ -1,5 +1,38 @@
 # Monad Composition Example
 
+This repo is a training project for playing with monads and composition of monads.  
+For this purpose I wrote a simple module called `Pascal` for solving really simple math expression. An example in the following:
+
+```haskel
+Pascal.solve "40+2" @?= Right 42
+```
+
+Using git tag and branch you are able to switch to the particular implementation of the algorithm.  
+The journey starts with a "pure" implementation and ends with a "three level monad composition" implementation (ExceptT StateT WriterT).  
+
+I hope this example project could help people to undestand monad, monad transformers and composition. Writing this code I undestood monad better and I learned a lot of new stuff.
+
+## How to run the code
+
+There are two way to run the code.
+
+### Cabal
+
+```bash
+cabal test
+```
+
+### Docker
+
+```bash
+./build.sh
+docker run --rm cescobaz/monad-composition-example
+```
+
+## Dependencies
+
+The only dependencies needed to build a monad composition is [`transformers`](https://hackage.haskell.org/package/transformers-0.5.6.2). But have a look at [`mtl`](https://hackage.haskell.org/package/mtl-2.2.2) (that depends itself from `transformers`) if `transformers` is not enough.
+
 ## Pure computation using Either monad
 
 ```bash
@@ -41,6 +74,10 @@ parseNumber s (x : xs)
 ```
 
 ## One level of monad composition: ExceptT
+
+```bash
+git checkout one-level-monad-composition
+```
 
 Monads are like a computation, a computation where only some behavior are allowed.  
 
