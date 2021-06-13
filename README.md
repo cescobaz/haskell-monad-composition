@@ -172,7 +172,7 @@ runPascalT :: (Monad m) => PascalT m a -> Memory -> m (Either String a)
 runPascalT m = evalStateT (runExceptT m)
 ```
 
-Then change add the initial state in the monad runner.
+Then change the monad runner adding the initial state.
 
 ```haskell
 -- before
