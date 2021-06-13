@@ -229,7 +229,7 @@ tell = lift . lift . Control.Monad.Trans.Writer.tell . (:) ':'
 ## Conclusions
 
 It takes me a lot of time to understand monads and monad composition. But now I think I could start to use it in my application understanding what I'm writing.  
-For sure I understand one thing: read carefully the types of everything and search for a function that match it and your (more or less) done.
+For sure I understand one thing: read carefully the types of everything and search for a function that match it and you are (more or less) done.
 
 ## References
 
