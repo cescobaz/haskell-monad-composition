@@ -111,6 +111,9 @@ Transformer runner will execute the monad (`ExceptT` in this case) and pop out t
 3. define your monad type;
 
 ```haskell
+-- before
+type PascalM a = Either String a
+-- after
 type PascalM a = PascalT Identity a
 ```
 
@@ -128,8 +131,15 @@ Done, now I need just a little adjustments on the original code:
 
 ```haskell
 -- how to create error / Left ...
+-- before
+parseNumber "" "" = Left "unexpected end of input"
+-- after
 parseNumber "" "" = throwE "unexpected end of input"
+
 -- how to call my solver ...
+-- before
+Pascal.solve "40+2" @?= Right 42
+-- after
 Pascal.runPascal (Pascal.solve "40+2") @?= Right 42
 ```
 
