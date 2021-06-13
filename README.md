@@ -9,6 +9,7 @@ Pascal.solve "40+2" @?= Right 42
 
 Using git tag and branch you are able to switch to the particular implementation of the algorithm.  
 The journey starts with a "pure" implementation and ends with a "three level monad composition" implementation (`ExceptT` `StateT` `WriterT`).  
+Please refer to the test folder to understand how to use the module `Pascal`.  
 
 I hope this example project could help people to understand monad, monad transformers and composition. Writing this code I understood monad better and I learned a lot of new stuff.
 
@@ -225,3 +226,12 @@ tell :: Monad m => String -> PascalT m ()
 tell = lift . lift . Control.Monad.Trans.Writer.tell . (:) ':'
 ```
 
+## Conclusions
+
+It takes me a lot of time to understand monads and monad composition. But now I think I could start to use it in my application understanding what I'm writing.  
+For sure I understand one thing: read carefully the types of everything and search for a function that match it and your (more or less) done.
+
+## References
+
+* [https://hackage.haskell.org](https://hackage.haskell.org)
+* [https://stackoverflow.com/questions/23903031/lift-return-and-a-transformer-type-constructor](https://stackoverflow.com/questions/23903031/lift-return-and-a-transformer-type-constructor)
