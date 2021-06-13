@@ -25,6 +25,7 @@ WORKDIR /opt/app
 
 RUN apt update
 # have a look to the following link to understand what you need to install
+# https://github.com/haskell/docker-haskell/blob/master/8.10/stretch/Dockerfile#L6
 RUN apt install -y \
   libgmp10
 
