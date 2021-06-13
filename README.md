@@ -35,17 +35,24 @@ The only dependencies needed to build a monad composition is [`transformers`](ht
 
 ## Pure computation using Either monad
 
+First of all I want to write a "pure" computation that can fails. So I use `Either` becuase I like to know whats wrong in case of error.
+
 ```bash
 git checkout pure-computation-using-either-monad
 ```
 
-Define the app type as an alias of Either.
+I want to hide the real type so I define a new type as an alias of `Either`.
 
 ```haskell
 type PascalM a = Either String a
 ```
 
-Then I suggest to use it as a monad:
+Now I can implement the core code.
+```haskell
+solve :: String -> PascalM Int
+```
+
+I prefer to use `Either` as a monad like this:
 
 ```haskell
 parseNumber s (x : xs)
@@ -56,7 +63,7 @@ parseNumber s (x : xs)
     l = read s
 ```
 
-### Not with pattern matching
+### I don't like to use pattern matching
 
 ```bash
 git checkout pure-computation-using-either-monad-pattern-matching
@@ -74,6 +81,8 @@ parseNumber s (x : xs)
 ```
 
 ## One level of monad composition: ExceptT
+
+To start monad composition I need a transformer. Beacuse I use [`Either`](https://hackage.haskell.org/package/base-4.15.0.0/docs/Data-Either.html), [`ExceptT`](https://hackage.haskell.org/package/transformers-0.5.6.2/docs/Control-Monad-Trans-Except.html) is the natural monad transformer.
 
 ```bash
 git checkout one-level-monad-composition
@@ -114,7 +123,19 @@ runPascal :: PascalM a -> Either String a
 runPascal = runIdentity . runPascalT
 ```
 
+Done, now I need just a little adjustments on the original code:
+
+```haskell
+-- how to create error / Left ...
+parseNumber "" "" = throwE "unexpected end of input"
+-- how to call my solver ...
+Pascal.runPascal (Pascal.solve "40+2") @?= Right 42
+```
+
 ## Two level of monad composition: ExceptT StateT
+
+Ok, I would like to remember all the expression the users ask me so I can avoid repeating the computation.  
+Lets add a state to my monad by adding [`StateT`](https://hackage.haskell.org/package/transformers-0.5.6.2/docs/Control-Monad-Trans-State.html).
 
 ```bash
 git checkout two-level-monad-composition
@@ -158,11 +179,12 @@ Note that your app monad interface doesn't changed, so you don't need to change 
 
 ## Three level of monad composition: ExceptT StateT WriterT
 
+For the last layer I would like something that could tell me the steps that my algorithm is going through, so I opted for [`WriterT`](https://hackage.haskell.org/package/transformers-0.5.6.2/docs/Control-Monad-Trans-Writer.html).
+
 ```bash
 git checkout main
 ```
 
-Ok, lets add another layer of monad. Lets try a WriterT.  
 Start from the type of the app monad: just replace m with the new transformer:
 
 ```haskell
